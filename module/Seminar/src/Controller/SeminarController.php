@@ -40,6 +40,7 @@ class SeminarController extends AbstractActionController {
 
     public function addAction() {
         $data['name'] = $this->getRequest()->getPost('name');
+        $data['data'] = ($this->getRequest()->getPost('data')===null)?null:$this->getRequest()->getPost('data');
         
         $seminar = new Seminar($data);
 
@@ -59,6 +60,7 @@ class SeminarController extends AbstractActionController {
     public function editAction() {
         $data['id'] = $this->getRequest()->getPost('id');
         $data['name'] = $this->getRequest()->getPost('name');
+        $data['data'] = ($this->getRequest()->getPost('data')===null)?null:$this->getRequest()->getPost('data');
         
         $seminar = new Seminar($data);
 

@@ -32,11 +32,17 @@ class SeminarDao {
         $data = $seminar->toArray();
 
         $id = (int) $data['id'];
-        if (!$this->getSeminar($id)) {
+        $row = $this->getSeminar($id);
+
+        if (!$row) {
             throw new RuntimeException(sprintf(
                 'O seminário de ID %d; não existe.',
                 $id
             ));
+        }
+
+        if ($data['data'] == null) {
+            $data['data'] = $row->data;
         }
 
         $this->tableGateway->update($data, ['id' => $id]);        
