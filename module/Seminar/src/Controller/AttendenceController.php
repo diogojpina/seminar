@@ -43,6 +43,8 @@ class AttendenceController extends AbstractActionController {
     public function submitAction() {
     	$data['student_nusp'] = $this->getRequest()->getPost('nusp');
     	$data['seminar_id'] = $this->getRequest()->getPost('seminar_id');
+        $data['data'] = ($this->getRequest()->getPost('data')===null)?null:$this->getRequest()->getPost('data');
+        $data['confirmed'] = ($this->getRequest()->getPost('confirmed')===null)?null:(int)$this->getRequest()->getPost('confirmed');        
 
     	$attendence = new Attendence($data);
 

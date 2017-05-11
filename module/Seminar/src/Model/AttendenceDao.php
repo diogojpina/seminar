@@ -32,12 +32,33 @@ class AttendenceDao {
     }
 
     public function submit(Attendence $attendence) {
-    	if (!$this->getAttendence($attendence)) {
+        $row = $this->getAttendence($attendence);        
+        
+    	if (!$row) {
     		date_default_timezone_set('America/America/Sao_Paulo');
     		$data = $attendence->toArray();
+
+            if ($data['confirmed'] == null) {
+                $data['confirmed'] = 1;
+            }
+
     		$data['dateTime'] = date('Y-m-d H:i:s');
     		$this->tableGateway->insert($data);
     	}
+        else {
+            $data = $attendence->toArray();            
+            if ($data['data'] == null) {
+                $data['data'] = $row->data;
+            }
+
+            if ($data['confirmed'] == null) {
+                $data['confirmed'] = $row->confirmed;
+            }
+            $data['dateTime'] = $row->dateTime;
+
+            $this->tableGateway->update($data, ['student_nusp' => $data['student_nusp'], 'seminar_id' => $data['seminar_id']]);
+            
+        }
     }
 }
 ?>
