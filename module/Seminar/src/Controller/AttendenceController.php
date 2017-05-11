@@ -14,6 +14,23 @@ class AttendenceController extends AbstractActionController {
         $this->attendenceDao = $attendenceDao;
     }
 
+    public function getAction() {
+        $data['student_nusp'] = $this->getRequest()->getPost('nusp');
+        $data['seminar_id'] = $this->getRequest()->getPost('seminar_id');
+
+        $attendence = new Attendence($data);
+
+        $json['success'] = true;
+
+        $json['data'] = $this->attendenceDao->getAttendence($attendence);
+
+        if (!$json['data']) {
+            $json['success'] = false;
+        }
+
+        return new JsonModel($json);            
+    }
+
     public function listStudentsAction() {
         $seminar_id =  $this->getRequest()->getPost('seminar_id');        
 
